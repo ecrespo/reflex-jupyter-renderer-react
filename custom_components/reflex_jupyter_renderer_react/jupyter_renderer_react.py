@@ -37,13 +37,13 @@ __all__ = ["JupyterNotebookViewer", "jupyter_notebook_viewer", "LIBRARY_NAME"]
 # source `index.ts` exports the symbol as `JupiterNotebookViewer` (sic). We default
 # to the public, documented contract and centralize both so a consumer can pin a
 # version or switch to the scoped package without touching the class body.
-LIBRARY_NAME = "jupyter-renderer-react"
-LIBRARY_VERSION = ""  # e.g. "0.1.0"; empty string installs the latest published version.
+LIBRARY_NAME = "@iomete/jupyter-renderer-react"
+LIBRARY_VERSION = "1.0.1"  # empty string installs the latest published version.
 LIBRARY = f"{LIBRARY_NAME}@{LIBRARY_VERSION}" if LIBRARY_VERSION else LIBRARY_NAME
 
-# Named export rendered as the React tag. See the "Naming" note in the README:
-# override to "JupiterNotebookViewer" if you target the in-repo source build.
-COMPONENT_TAG = "JupyterNotebookViewer"
+# Named export rendered as the React tag. The published package (@iomete) exports
+# the symbol as `JupiterNotebookViewer` (sic — "Jupiter", not "Jupyter").
+COMPONENT_TAG = "JupiterNotebookViewer"
 
 # Stylesheet shipped by the package (package.json `exports` maps `./dist/index.css`).
 CSS_IMPORT = f"{LIBRARY_NAME}/dist/index.css"
