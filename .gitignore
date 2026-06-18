@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# uv
+# (keep uv.lock committed for reproducible installs)
+
+# Reflex
+.web/
+*.db
+.states/
+reflex.lock/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reflex-jupyter-renderer-react"
+version = "0.1.0"
+description = "A native Reflex component wrapping jupyter-renderer-react to render Jupyter notebooks (.ipynb) in pure Python."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [{ name = "Ernesto Crespo", email = "ecrespo@gmail.com" }]
+keywords = [
+    "reflex",
+    "reflex-custom-components",
+    "jupyter",
+    "notebook",
+    "ipynb",
+    "renderer",
+    "react",
+    "component",
+    "visualization",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: Reflex",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "reflex>=0.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "build",
+    "ruff",
+]
+
+[project.urls]
+Homepage = "https://github.com/ecrespo/reflex-jupyter-renderer-react"
+Repository = "https://github.com/ecrespo/reflex-jupyter-renderer-react"
+Issues = "https://github.com/ecrespo/reflex-jupyter-renderer-react/issues"
+Documentation = "https://github.com/ecrespo/reflex-jupyter-renderer-react#readme"
+Changelog = "https://github.com/ecrespo/reflex-jupyter-renderer-react/releases"
+"PyPI" = "https://pypi.org/project/reflex-jupyter-renderer-react/"
+"Upstream (jupyter-renderer-react)" = "https://github.com/iomete/jupyter-renderer-react"
+
+[tool.setuptools.packages.find]
+where = ["custom_components"]
+
+[tool.pytest.ini_options]
+pythonpath = ["custom_components"]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
