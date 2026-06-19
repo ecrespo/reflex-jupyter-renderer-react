@@ -23,7 +23,6 @@ keywords = [
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
-    "Framework :: Reflex",
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
@@ -46,7 +45,7 @@ Issues = "https://github.com/ecrespo/reflex-jupyter-renderer-react/issues"
 Documentation = "https://github.com/ecrespo/reflex-jupyter-renderer-react#readme"
 Changelog = "https://github.com/ecrespo/reflex-jupyter-renderer-react/releases"
 "PyPI" = "https://pypi.org/project/reflex-jupyter-renderer-react/"
-"Upstream (jupyter-renderer-react)" = "https://github.com/iomete/jupyter-renderer-react"
+"Upstream" = "https://github.com/iomete/jupyter-renderer-react"
 
 [tool.setuptools.packages.find]
 where = ["custom_components"]

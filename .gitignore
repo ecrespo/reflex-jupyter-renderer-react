@@ -19,6 +19,8 @@ venv/
 *.db
 .states/
 reflex.lock/
+# generated component type stubs
+*.pyi
 
 # OS / editors
 .DS_Store
