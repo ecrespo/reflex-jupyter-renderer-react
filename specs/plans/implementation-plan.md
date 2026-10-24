@@ -36,10 +36,10 @@ Phases 0–5 constitute the v0.1.0 release scope (all complete in this repositor
 **Goal:** a publishable custom-component skeleton.
 
 - Layout per Reflex convention:
-  `custom_components/reflex_jupyter_renderer_react/`, demo app folder,
+  `src/reflex_jupyter_renderer_react/` (was `custom_components/` before v0.2.0), demo app folder,
   `pyproject.toml`, `README.md`, `LICENSE` (MIT), `.gitignore`.
 - `pyproject.toml`: name `reflex-jupyter-renderer-react`, `reflex>=0.10.0` dep (Python ≥ 3.11),
-  `setuptools` backend discovering `custom_components/`, pytest config.
+  `hatchling` + `hatch-reflex-pyi` backend (was `setuptools` before v0.2.0), pytest config.
 
 **Exit criteria:** `uv venv` + `uv pip install -e ".[dev]"` succeeds.
 

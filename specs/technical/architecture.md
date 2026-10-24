@@ -45,7 +45,7 @@ Python side declares the component's props as `rx.Var`s and its callbacks as
 ## 2. Module Layout
 
 ```
-custom_components/reflex_jupyter_renderer_react/
+src/reflex_jupyter_renderer_react/
 ├── __init__.py                  # Public API; degrades gracefully without Reflex
 ├── jupyter_renderer_react.py    # The rx.Component wrapper (requires Reflex)
 └── models.py                    # Dependency-free nbformat builders
@@ -146,10 +146,10 @@ No Reflex import here — keeps the layer testable in isolation.
 
 ## 5. Build & Distribution
 
-- **Package manager:** `uv` (`uv venv`, `uv pip install -e ".[dev]"`, `uv build`).
-- **Build backend:** `setuptools`; sources discovered under `custom_components/`.
-- **Reflex custom-component flow:** `reflex component build` produces `dist/`,
-  then `uv publish` (or `twine upload`) ships to PyPI.
+- **Package manager:** `uv` (`uv sync --all-extras`, `uv build`).
+- **Build backend:** `hatchling` + `hatch-reflex-pyi` (generates `.pyi` stubs at build time); sources under `src/` (the hook requires the `src/<package>/` layout).
+- **Release flow:** `uv build` produces `dist/` (the `reflex component` CLI was removed in Reflex 0.10),
+  then `.github/workflows/publish.yml` ships it to PyPI via trusted publishing on a `v*` tag.
 - **npm dependency:** Reflex installs `@iomete/jupyter-renderer-react@1.0.1` into the compiled
   frontend automatically on first `reflex run`.
 

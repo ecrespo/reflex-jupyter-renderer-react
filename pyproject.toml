@@ -55,10 +55,10 @@ Changelog = "https://github.com/ecrespo/reflex-jupyter-renderer-react/releases"
 
 [tool.hatch.build]
 # The .pyi stubs are generated at build time and are not committed.
-artifacts = ["/custom_components/**/*.pyi"]
+artifacts = ["/src/**/*.pyi"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["custom_components/reflex_jupyter_renderer_react"]
+packages = ["src/reflex_jupyter_renderer_react"]
 
 [tool.hatch.build.targets.sdist]
 exclude = ["/jupyter_renderer_react_demo", "/.github", "/specs"]
@@ -67,7 +67,7 @@ exclude = ["/jupyter_renderer_react_demo", "/.github", "/specs"]
 dependencies = ["ruff", "reflex>=0.10.0"]
 
 [tool.pytest.ini_options]
-pythonpath = ["custom_components"]
+pythonpath = ["src"]
 testpaths = ["tests"]
 addopts = "-q"
 

@@ -187,7 +187,7 @@ j.JupyterNotebookViewer.tag = "JupyterNotebookViewer"
 ```
 
 You can also change the pinned npm version via `LIBRARY_VERSION` in
-`custom_components/reflex_jupyter_renderer_react/jupyter_renderer_react.py`.
+`src/reflex_jupyter_renderer_react/jupyter_renderer_react.py`.
 
 ## Development
 
@@ -230,7 +230,7 @@ architecture, API, data-model schema, and the phased implementation plan & tasks
 
 ```
 reflex-jupyter-renderer-react/
-├── custom_components/reflex_jupyter_renderer_react/
+├── src/reflex_jupyter_renderer_react/
 │   ├── __init__.py
 │   ├── jupyter_renderer_react.py   # the Reflex component
 │   └── models.py                   # dependency-free notebook builders
