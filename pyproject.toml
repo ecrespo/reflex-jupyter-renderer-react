@@ -1,14 +1,16 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
+# Reflex 0.10 removed `reflex component build`; the `hatch-reflex-pyi` build hook
+# now generates the `.pyi` type stubs whenever the package is built (`uv build`).
+requires = ["hatchling", "hatch-reflex-pyi"]
+build-backend = "hatchling.build"
 
 [project]
 name = "reflex-jupyter-renderer-react"
-version = "0.1.0"
+version = "0.2.0"
 description = "A native Reflex component wrapping jupyter-renderer-react to render Jupyter notebooks (.ipynb) in pure Python."
 readme = "README.md"
 license = { text = "MIT" }
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [{ name = "Ernesto Crespo", email = "ecrespo@gmail.com" }]
 keywords = [
     "reflex",
@@ -24,11 +26,15 @@ keywords = [
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "reflex>=0.8.0",
+    "reflex>=0.10.0",
 ]
 
 [project.optional-dependencies]
@@ -47,8 +53,18 @@ Changelog = "https://github.com/ecrespo/reflex-jupyter-renderer-react/releases"
 "PyPI" = "https://pypi.org/project/reflex-jupyter-renderer-react/"
 "Upstream" = "https://github.com/iomete/jupyter-renderer-react"
 
-[tool.setuptools.packages.find]
-where = ["custom_components"]
+[tool.hatch.build]
+# The .pyi stubs are generated at build time and are not committed.
+artifacts = ["/custom_components/**/*.pyi"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["custom_components/reflex_jupyter_renderer_react"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/jupyter_renderer_react_demo", "/.github", "/specs"]
+
+[tool.hatch.build.hooks.reflex-pyi]
+dependencies = ["ruff", "reflex>=0.10.0"]
 
 [tool.pytest.ini_options]
 pythonpath = ["custom_components"]
@@ -57,4 +73,4 @@ addopts = "-q"
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py311"

@@ -118,7 +118,7 @@ data-science portfolios, tutorial/teaching content, report viewers).
 
 ## 7. Non-Functional Requirements
 
-- **Compatibility:** Reflex ≥ 0.8.0, Python ≥ 3.10.
+- **Compatibility:** Reflex ≥ 0.10.0, Python ≥ 3.11.
 - **Packaging:** managed with `uv`; built with `reflex component build`.
 - **Licensing:** MIT (matches upstream).
 - **Reproducibility:** the npm package is declared via the component `library`.

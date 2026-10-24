@@ -38,7 +38,7 @@ Phases 0–5 constitute the v0.1.0 release scope (all complete in this repositor
 - Layout per Reflex convention:
   `custom_components/reflex_jupyter_renderer_react/`, demo app folder,
   `pyproject.toml`, `README.md`, `LICENSE` (MIT), `.gitignore`.
-- `pyproject.toml`: name `reflex-jupyter-renderer-react`, `reflex>=0.8.0` dep,
+- `pyproject.toml`: name `reflex-jupyter-renderer-react`, `reflex>=0.10.0` dep (Python ≥ 3.11),
   `setuptools` backend discovering `custom_components/`, pytest config.
 
 **Exit criteria:** `uv venv` + `uv pip install -e ".[dev]"` succeeds.
@@ -87,13 +87,16 @@ Phases 0–5 constitute the v0.1.0 release scope (all complete in this repositor
 
 **Exit criteria:** tests green; repository pushed.
 
-## Phase 6 — Publish to PyPI (future)
+## Phase 6 — Publish to PyPI ✅
 
 **Goal:** make the package `pip install`-able.
 
-- Confirm the upstream npm name/version actually published; pin `LIBRARY_VERSION`.
-- `reflex component build` → `uv publish` (PyPI token per
-  `specs/.../prerequisites`); optionally `reflex component share`.
+- Confirm the upstream npm name/version actually published; pin `LIBRARY_VERSION`
+  (`@iomete/jupyter-renderer-react@1.0.1`).
+- v0.1.0 published manually. From v0.2.0 (Reflex ≥ 0.10, where the
+  `reflex component` CLI was removed): `uv build` with the `hatch-reflex-pyi`
+  hook generates stubs; `.github/workflows/publish.yml` publishes via PyPI
+  trusted publishing when a `v*` tag is pushed on `main`.
 - Tag a release; verify install in a clean env and a real `reflex run`.
 
 **Exit criteria:** `uv pip install reflex-jupyter-renderer-react` works end-to-end.
