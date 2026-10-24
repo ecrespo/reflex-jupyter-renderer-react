@@ -26,26 +26,26 @@ Python side declares the component's props as `rx.Var`s and its callbacks as
 │        │                                                           │
 │        ▼                                                           │
 │   JupyterNotebookViewer(rx.Component)                              │
-│     library = "jupyter-renderer-react"                             │
-│     tag     = "JupyterNotebookViewer" (named import)              │
+│     library = "@iomete/jupyter-renderer-react@1.0.1"               │
+│     tag     = "JupiterNotebookViewer" (named import)              │
 │     props   → rx.Var[...]                                          │
 │     events  → rx.EventHandler[...]                                 │
-│     add_imports() → "jupyter-renderer-react/dist/index.css"       │
+│     add_imports() → "@iomete/jupyter-renderer-react/dist/index.css"│
 └───────────────────────────┬──────────────────────────────────────┘
                             │ Reflex compiler
                             ▼
 ┌──────────────────────────────────────────────────────────────────┐
 │ Compiled frontend (React / Vite, via bun)                          │
-│   import { JupyterNotebookViewer } from "jupyter-renderer-react";   │
-│   import "jupyter-renderer-react/dist/index.css";                  │
-│   <JupyterNotebookViewer notebook={...} theme={...} .../>          │
+│   import { JupiterNotebookViewer } from "@iomete/jupyter-renderer-react";
+│   import "@iomete/jupyter-renderer-react/dist/index.css";          │
+│   <JupiterNotebookViewer notebook={...} theme={...} .../>          │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
 ## 2. Module Layout
 
 ```
-custom_components/reflex_jupyter_renderer_react/
+src/reflex_jupyter_renderer_react/
 ├── __init__.py                  # Public API; degrades gracefully without Reflex
 ├── jupyter_renderer_react.py    # The rx.Component wrapper (requires Reflex)
 └── models.py                    # Dependency-free nbformat builders
@@ -63,15 +63,15 @@ data model even when Reflex is absent.
 ### 3.1 Library and tag
 
 ```python
-LIBRARY_NAME = "jupyter-renderer-react"
-LIBRARY_VERSION = ""                      # pin here, e.g. "0.1.0"
+LIBRARY_NAME = "@iomete/jupyter-renderer-react"
+LIBRARY_VERSION = "1.0.1"                 # empty string = latest
 LIBRARY = f"{LIBRARY_NAME}@{LIBRARY_VERSION}" if LIBRARY_VERSION else LIBRARY_NAME
-COMPONENT_TAG = "JupyterNotebookViewer"   # named export
+COMPONENT_TAG = "JupiterNotebookViewer"   # named export (upstream spelling)
 CSS_IMPORT = f"{LIBRARY_NAME}/dist/index.css"
 ```
 
 `is_default = False` because the upstream component is a **named export**, not a
-default export. Reflex therefore emits `import { JupyterNotebookViewer } from ...`.
+default export. Reflex therefore emits `import { JupiterNotebookViewer } from ...`.
 
 ### 3.2 Naming note (important)
 
@@ -84,13 +84,15 @@ There is a real inconsistency upstream that this design isolates behind constant
 | `src/index.ts` export | `JupiterNotebookViewer` (sic — "Jupiter") |
 | `package.json` `name` | `@iomete/jupyter-renderer-react` (GitHub registry) |
 
-We **default to the public, documented contract** (`jupyter-renderer-react` +
-`JupyterNotebookViewer`). To target the in-repo source build instead, override:
+We **default to what the published npm package actually ships**
+(`@iomete/jupyter-renderer-react@1.0.1` + `JupiterNotebookViewer`). The Python
+class keeps the documented `JupyterNotebookViewer` name. To target the unscoped
+name / README spelling instead, override:
 
 ```python
 import reflex_jupyter_renderer_react.jupyter_renderer_react as j
-j.JupyterNotebookViewer.tag = "JupiterNotebookViewer"      # source spelling
-j.JupyterNotebookViewer.library = "@iomete/jupyter-renderer-react"
+j.JupyterNotebookViewer.library = "jupyter-renderer-react"
+j.JupyterNotebookViewer.tag = "JupyterNotebookViewer"      # README spelling
 ```
 
 ### 3.3 Props
@@ -124,7 +126,7 @@ event specs handle this:
 ### 3.5 Imports and styles
 
 `add_imports()` returns `{"": CSS_IMPORT}`. The empty key is the Reflex idiom for
-a bare side-effect import (`import "jupyter-renderer-react/dist/index.css";`). The
+a bare side-effect import (`import "@iomete/jupyter-renderer-react/dist/index.css";`). The
 component's own `library`/`tag` import is added automatically and need not be
 repeated. This also ensures the npm package is added to the frontend `package.json`.
 
@@ -144,11 +146,11 @@ No Reflex import here — keeps the layer testable in isolation.
 
 ## 5. Build & Distribution
 
-- **Package manager:** `uv` (`uv venv`, `uv pip install -e ".[dev]"`, `uv build`).
-- **Build backend:** `setuptools`; sources discovered under `custom_components/`.
-- **Reflex custom-component flow:** `reflex component build` produces `dist/`,
-  then `uv publish` (or `twine upload`) ships to PyPI.
-- **npm dependency:** Reflex installs `jupyter-renderer-react` into the compiled
+- **Package manager:** `uv` (`uv sync --all-extras`, `uv build`).
+- **Build backend:** `hatchling` + `hatch-reflex-pyi` (generates `.pyi` stubs at build time); sources under `src/` (the hook requires the `src/<package>/` layout).
+- **Release flow:** `uv build` produces `dist/` (the `reflex component` CLI was removed in Reflex 0.10),
+  then `.github/workflows/publish.yml` ships it to PyPI via trusted publishing on a `v*` tag.
+- **npm dependency:** Reflex installs `@iomete/jupyter-renderer-react@1.0.1` into the compiled
   frontend automatically on first `reflex run`.
 
 ## 6. Testing Strategy

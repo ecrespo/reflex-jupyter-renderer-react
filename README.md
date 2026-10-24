@@ -44,6 +44,11 @@ app.add_page(index)
 | Untyped JSON edited by hand | Typed Python builders for notebooks |
 | External hosting / manual embedding | npm dependency resolved by Reflex automatically |
 
+## Requirements
+
+- Python **≥ 3.11**
+- Reflex **≥ 0.10.0** (tested with Reflex 0.10.0, Python 3.11 – 3.14)
+
 ## Install
 
 ```bash
@@ -54,8 +59,8 @@ uv add reflex-jupyter-renderer-react
 uv pip install -e .
 ```
 
-Reflex installs the underlying npm package (`jupyter-renderer-react`) into the
-compiled frontend automatically on the first `reflex run`.
+Reflex installs the underlying npm package (`@iomete/jupyter-renderer-react@1.0.1`)
+into the compiled frontend automatically on the first `reflex run`.
 
 ## Usage
 
@@ -170,32 +175,53 @@ them in overridable constants and defaults to the **public, documented contract*
 | `src/index.ts` export | `JupiterNotebookViewer` (sic) |
 | `package.json` name | `@iomete/jupyter-renderer-react` (GitHub registry) |
 
-Defaults: `library = "jupyter-renderer-react"`, `tag = "JupyterNotebookViewer"`.
-To retarget the scoped package or the source-spelled tag:
+Defaults match what the published npm package actually ships:
+`library = "@iomete/jupyter-renderer-react@1.0.1"`, `tag = "JupiterNotebookViewer"`
+(the Python class is still named `JupyterNotebookViewer`). To retarget the
+unscoped name or the README-spelled tag:
 
 ```python
 import reflex_jupyter_renderer_react.jupyter_renderer_react as j
-j.JupyterNotebookViewer.library = "@iomete/jupyter-renderer-react"
-j.JupyterNotebookViewer.tag = "JupiterNotebookViewer"
+j.JupyterNotebookViewer.library = "jupyter-renderer-react"
+j.JupyterNotebookViewer.tag = "JupyterNotebookViewer"
 ```
 
-You can also pin a version via `LIBRARY_VERSION` in
-`custom_components/reflex_jupyter_renderer_react/jupyter_renderer_react.py`.
+You can also change the pinned npm version via `LIBRARY_VERSION` in
+`src/reflex_jupyter_renderer_react/jupyter_renderer_react.py`.
 
 ## Development
 
 This project follows the Reflex **custom component** workflow and uses **`uv`**.
 
 ```bash
-uv venv
-uv pip install -e ".[dev]"
+uv sync --all-extras          # create .venv with Reflex + dev tools
+uv run ruff check .           # lint
 uv run pytest                 # run the tests
-
-# Publish (custom component flow)
-reflex component build        # -> dist/
-uv publish                    # or: twine upload dist/*
-reflex component share        # list in the Reflex gallery
+uv build                      # -> dist/ (sdist + wheel with generated .pyi stubs)
 ```
+
+> **Reflex 0.10 note:** the `reflex component` CLI (`init` / `build` / `publish` /
+> `share`) was removed in Reflex 0.10. This package now follows the official
+> [component template](https://github.com/reflex-dev/component-template): the
+> build backend is `hatchling` and the `hatch-reflex-pyi` hook generates the
+> `.pyi` type stubs during `uv build`.
+
+### Releasing
+
+CI (`.github/workflows/ci.yml`) runs lint + tests on Python 3.11–3.14, builds the
+package and compiles the demo on every push and pull request. Publishing to PyPI
+is done by `.github/workflows/publish.yml` via
+[trusted publishing](https://docs.pypi.org/trusted-publishers/) when a `v*` tag is
+pushed:
+
+1. Bump `version` in `pyproject.toml` and add a `CHANGELOG.md` entry; merge to `main`.
+2. Tag `main` and push the tag (it must match the version):
+
+   ```bash
+   git checkout main && git pull
+   git tag v0.2.0
+   git push origin v0.2.0
+   ```
 
 See [`specs/`](specs) for the full Spec-Driven Design documentation: PRD,
 architecture, API, data-model schema, and the phased implementation plan & tasks.
@@ -204,10 +230,11 @@ architecture, API, data-model schema, and the phased implementation plan & tasks
 
 ```
 reflex-jupyter-renderer-react/
-├── custom_components/reflex_jupyter_renderer_react/
+├── src/reflex_jupyter_renderer_react/
 │   ├── __init__.py
 │   ├── jupyter_renderer_react.py   # the Reflex component
 │   └── models.py                   # dependency-free notebook builders
+├── .github/workflows/              # ci.yml (tests/build/demo) · publish.yml (PyPI on tag)
 ├── jupyter_renderer_react_demo/    # runnable demo app
 ├── tests/                          # data-model + component contract tests
 ├── specs/                          # SDD: prd / technical / api / data-model / plans

@@ -100,11 +100,11 @@ JupyterNotebookViewer.from_json(json_string, theme="dark")
 
 | Constant | Default | Purpose |
 |---|---|---|
-| `LIBRARY_NAME` | `"jupyter-renderer-react"` | npm package name. |
-| `LIBRARY_VERSION` | `""` | Pin a version (e.g. `"0.1.0"`); empty = latest. |
-| `COMPONENT_TAG` | `"JupyterNotebookViewer"` | React named export to render. |
-| `CSS_IMPORT` | `"jupyter-renderer-react/dist/index.css"` | Stylesheet side-effect import. |
+| `LIBRARY_NAME` | `"@iomete/jupyter-renderer-react"` | npm package name. |
+| `LIBRARY_VERSION` | `"1.0.1"` | Pinned npm version; empty string = latest. |
+| `COMPONENT_TAG` | `"JupiterNotebookViewer"` | React named export to render (upstream spelling). |
+| `CSS_IMPORT` | `"@iomete/jupyter-renderer-react/dist/index.css"` | Stylesheet side-effect import. |
 | `PREDEFINED_THEMES` | `("light", "dark")` | Recognized string themes. |
 
 See `specs/technical/architecture.md` §3.2 for the upstream naming note and how
-to retarget the scoped `@iomete/...` package or the source-spelled tag.
+to retarget the unscoped package name or the README-spelled tag.

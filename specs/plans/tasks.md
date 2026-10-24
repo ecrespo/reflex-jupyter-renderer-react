@@ -18,7 +18,7 @@ Legend: `[x]` done · `[ ]` pending · `(P#)` phase.
 - [x] (P0) Confirm `uv` as package manager.
 
 ## Phase 1 — Scaffolding
-- [x] (P1) Create directory layout (`custom_components/`, demo, `tests/`, `specs/`).
+- [x] (P1) Create directory layout (`src/` — originally `custom_components/`, demo, `tests/`, `specs/`).
 - [x] (P1) Write `pyproject.toml` (name, deps, setuptools, pytest).
 - [x] (P1) Add `LICENSE` (MIT), `.gitignore`, `CHANGELOG.md`.
 

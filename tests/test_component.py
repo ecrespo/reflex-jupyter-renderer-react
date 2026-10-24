@@ -8,7 +8,8 @@ import pytest
 
 reflex = pytest.importorskip("reflex")
 
-from reflex_jupyter_renderer_react.jupyter_renderer_react import (
+from reflex_jupyter_renderer_react.jupyter_renderer_react import (  # noqa: E402
+    COMPONENT_TAG,
     CSS_IMPORT,
     LIBRARY_NAME,
     JupyterNotebookViewer,
@@ -18,7 +19,7 @@ from reflex_jupyter_renderer_react.jupyter_renderer_react import (
 
 class TestComponentContract:
     def test_library_and_tag(self):
-        assert JupyterNotebookViewer.tag == "JupyterNotebookViewer"
+        assert JupyterNotebookViewer.tag == COMPONENT_TAG == "JupiterNotebookViewer"
         assert LIBRARY_NAME in str(JupyterNotebookViewer.library)
 
     def test_named_import(self):
